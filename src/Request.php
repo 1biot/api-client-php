@@ -43,6 +43,7 @@ class Request
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->requestType);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders());
+        curl_setopt($ch, CURLOPT_USERAGENT, '1BIOT API Client Agent');
 
         if ($this->requestType === 'PUT') {
             curl_setopt($ch, CURLOPT_PUT, 1);

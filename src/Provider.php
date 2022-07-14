@@ -150,6 +150,29 @@ class Provider
         return $this->getIdentity();
     }
 
+    /**
+     * @param array $data
+     * @throws \Exception
+     */
+    public function registerUser(array $data): void
+    {
+        $payload = new \stdClass();
+        $payload->fullName = $data['fullName'] ?? null;
+        $payload->email = $data['email'] ?? null;
+        $payload->password = $data['password'] ?? null;
+        $payload->passwordConfirm = $data['password'] ?? null;
+
+        $response = $this->client->createRequest('POST', 'user/register')
+            ->execute($payload);
+
+        if (!$response->isSuccess()) {
+            $responsePayload = $response->getEncodedPayload(true);
+            throw new \Exception(
+                sprintf('Registration failed. %s', $responsePayload['data'][0]['message'] ?? 'Unknown error')
+            );
+        }
+    }
+
     public function resetIdentity(): self
     {
         $this->identity = null;
@@ -198,7 +221,6 @@ class Provider
      */
     protected function verifyToken(string $token, string $key): \Jose\Easy\JWT
     {
-
         return \Jose\Easy\Load::jws($token)
             ->algs(['RS256'])
             ->iat(500)
