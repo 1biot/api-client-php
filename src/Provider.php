@@ -39,11 +39,11 @@ class Provider
     /**
      * @param Identity $identity
      * @param bool $refreshIdentityIfExpired
-     * @return Identity
+     * @return ?Identity
      * @throws AuthenticationException
      * @throws \Exception
      */
-    public function loadIdentity(Identity $identity, bool $refreshIdentityIfExpired = false): Identity
+    public function loadIdentity(Identity $identity, bool $refreshIdentityIfExpired = false): ?Identity
     {
         try {
             $this->resetIdentity();
